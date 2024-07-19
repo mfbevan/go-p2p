@@ -8,6 +8,7 @@ import (
 
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p/core/host"
+	"github.com/libp2p/go-libp2p/p2p/protocol/ping"
 )
 
 type Config struct {
@@ -28,7 +29,10 @@ func New(config Config) *Node {
 // Start the node
 func (n *Node) Start() {
 	address := fmt.Sprintf("/ip4/127.0.0.1/tcp/%d", n.Port)
-	node, err := libp2p.New(libp2p.ListenAddrStrings(address))
+	node, err := libp2p.New(
+		libp2p.ListenAddrStrings(address),
+		libp2p.Ping(false), // Disables internally p2p ping service
+	)
 
 	if err != nil {
 		panic(err)
@@ -56,4 +60,10 @@ func (n *Node) setupTerminator() {
 // Stop the node
 func (n *Node) Stop() {
 	n.Node.Close()
+}
+
+// Setup the ping service
+func (n *Node) SetupPingService() {
+	pingService := &ping.PingService{Host: n.Node}
+	n.Node.SetStreamHandler(ping.ID, pingService.PingHandler)
 }
