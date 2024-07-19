@@ -1,4 +1,4 @@
-🛜 Go p2p
+# 🛜 Go p2p
 
 Go implementation of peer to peer network node using [go-libp2p](https://docs.libp2p.io/guides/getting-started/go/)
 
@@ -12,6 +12,8 @@ Go implementation of peer to peer network node using [go-libp2p](https://docs.li
 
 
 ## Run p2p nodes
+
+> The following will demonstrate starting two nodes that will play a game of ping pong with one another.
 
 Each node will automatically assign its own port on your local loopback interface (127.0.0.1). To run your first node, use
 
